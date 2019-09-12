@@ -18,7 +18,7 @@ public class PhysiotherapistService implements PhysiotherapistInterface {
     @Override
     public void visitAuthorization(boolean accept,Long id) {
         Visit visit = visitRepository.getOne(id);
-        visit.setConfirmation(accept);
+
     }
 
     @Override

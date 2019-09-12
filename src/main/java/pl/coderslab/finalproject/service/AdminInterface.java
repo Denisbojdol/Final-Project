@@ -10,7 +10,7 @@ import java.util.Map;
 
 public interface AdminInterface {
 
-        void selectOfficeWorkingTime(LocalDateTime begin,LocalDateTime end,String day,boolean open);
+        void selectOfficeWorkingTime(LocalDateTime begin,LocalDateTime end,boolean open);
 
         void createPhysiotherapist(Physiotherapist physiotherapist);
 
@@ -21,5 +21,6 @@ public interface AdminInterface {
         void removeClient(Client client);
 
         void setTreatmentPrice(BigDecimal bigDecimal,String name);
+
 
 }

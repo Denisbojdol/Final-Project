@@ -3,6 +3,7 @@ package pl.coderslab.finalproject.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import pl.coderslab.finalproject.securityEntity.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -28,6 +29,9 @@ public class Client {
 
     @OneToOne
     private PatientCard patientCard;
+
+    @OneToOne
+    private User user;
 
 
 

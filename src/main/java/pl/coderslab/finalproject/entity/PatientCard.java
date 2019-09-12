@@ -21,7 +21,7 @@ public class PatientCard {
     @NotNull
     private String treatmentDescription;
 
-    @NotNull
+
     private LocalDateTime treatmentData;
 
     @OneToOne

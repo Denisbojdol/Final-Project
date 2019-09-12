@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "office")
+@Table(name = "workSchedule")
 @Getter
 @Setter
 public class WorkSchedule {

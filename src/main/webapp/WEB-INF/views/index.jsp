@@ -18,10 +18,11 @@
 <a href="/register">Rejestracja</a><br>
 
 <sec:authorize access="hasRole('USER')">
-    <a href="user/edit">Edycja</a><br>
+    <a href="user/panel">Panel Klienta</a><br>
+    <a href="user/edit">Dane Klienta</a><br>
 </sec:authorize>
 <sec:authorize access="hasRole('ADMIN')">
-    <a href="admin/pannel">Panel Admina</a><br>
+    <a href="/admin/page">Panel Administratora</a><br>
 </sec:authorize>
 
 

@@ -24,4 +24,5 @@ public class AdminData {
     @Email
     private String email;
 
+
 }
