@@ -10,4 +10,5 @@ import java.util.List;
 public interface PhysiotherapistRepository extends JpaRepository<Physiotherapist,Long> {
 
     List<Physiotherapist> findAllBy();
+    Physiotherapist findByUserId(Long id);
 }

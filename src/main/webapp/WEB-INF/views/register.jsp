@@ -13,13 +13,18 @@
 </head>
 <body>
 
-<form:form method="post" modelAttribute="user">
-    <div><label> User Name : <form:input path="username" type="text" name="username"/> </label></div>
+<form:form method="post" modelAttribute="user" >
+    <div><label> User Email : <form:input path="username" type="text" name="username"/> </label></div>
     <form:errors path="username" cssClass="error" />
+    <div><label> User Name : <form:input path="name" type="text" name="name"/> </label></div>
+    <form:errors path="name" cssClass="error" />
+    <div><label> User Surname : <form:input path="surname" type="text" name="surname"/> </label></div>
+    <form:errors path="surname" cssClass="error" />
     <div><label> Password: <form:input path="password" type="password" name="password"/> </label></div>
     <form:errors path="password" cssClass="error" />
     <div><label> Password: <form:input path="password2" type="password" name="password"/> </label></div>
     <form:errors path="password2" cssClass="error" />
+
     <div><input type="submit" value="Zarejestruj się"/></div>
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 </form:form>

@@ -1,67 +1,63 @@
 package pl.coderslab.finalproject.controller;
 
 
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import pl.coderslab.finalproject.data.AdminData;
 import pl.coderslab.finalproject.data.OfficeData;
 import pl.coderslab.finalproject.data.PhysiotherapistData;
-import pl.coderslab.finalproject.entity.Admin;
-import pl.coderslab.finalproject.entity.Client;
-import pl.coderslab.finalproject.entity.Office;
-import pl.coderslab.finalproject.entity.Physiotherapist;
+import pl.coderslab.finalproject.entity.*;
 import pl.coderslab.finalproject.repository.AdminRepository;
 import pl.coderslab.finalproject.repository.OfficeRepository;
 import pl.coderslab.finalproject.repository.PhysiotherapistRepository;
+import pl.coderslab.finalproject.repository.VisitRepository;
 import pl.coderslab.finalproject.securityEntity.User;
 import pl.coderslab.finalproject.securityEntity.securityService.CurrentUser;
-import pl.coderslab.finalproject.securityEntity.securityService.RoleRepository;
 import pl.coderslab.finalproject.securityEntity.securityService.UserRepository;
 import pl.coderslab.finalproject.service.AdminService;
 
 import javax.validation.Valid;
-import java.awt.print.Book;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/admin")
+//@Secured("ROLE_ADMIN")
 public class AdminController {
 
     private AdminRepository adminRepository;
-    private RoleRepository roleRepository;
-    private UserRepository userRepository;
     private PhysiotherapistRepository physiotherapistRepository;
     private AdminService adminService;
     private OfficeRepository officeRepository;
+    private VisitRepository visitRepository;
+
     @Autowired
-    public AdminController(AdminService adminService, AdminRepository adminRepository, RoleRepository roleRepository, UserRepository userRepository, PhysiotherapistRepository physiotherapistRepository) {
+    public AdminController(OfficeRepository officeRepository, AdminService adminService, AdminRepository adminRepository,
+                           PhysiotherapistRepository physiotherapistRepository, VisitRepository visitRepository) {
         this.adminRepository = adminRepository;
-        this.roleRepository = roleRepository;
-        this.userRepository = userRepository;
         this.physiotherapistRepository = physiotherapistRepository;
         this.adminService = adminService;
+        this.officeRepository = officeRepository;
+        this.visitRepository = visitRepository;
     }
 
     @GetMapping("/page")
     public String admin(@AuthenticationPrincipal CurrentUser currentUser, Model model) {
         User user = currentUser.getUser();
-        model.addAttribute("admin",user);
+        model.addAttribute("admin", user);
         return "adminPage";
     }
 
     @GetMapping("/edit")
-    private String adminData(Model model) {
-        model.addAttribute("adminData",new AdminData());
+    private String adminData(Model model, @AuthenticationPrincipal CurrentUser currentUser) {
+        if (adminRepository.findAdminByUserId(currentUser.getUser().getId()) != null) {
+            model.addAttribute("admin", adminRepository.findAdminByUserId(currentUser.getUser().getId()));
+        }
+        model.addAttribute("adminData", new AdminData());
         return "adminEdit";
     }
 
@@ -72,18 +68,7 @@ public class AdminController {
         if (result.hasErrors()) {
             return "adminEdit";
         }
-        User user = userRepository.findByUsername(currentUser.getUser().getUsername());
-        Admin admin = new Admin();
-        if (adminRepository.findAdminByUserId(user.getId()) != null) {
-            admin = adminRepository.findAdminByUserId(user.getId());
-        }
-        admin.setEmail(adminData.getEmail());
-        admin.setName(adminData.getName());
-        admin.setSurname(adminData.getSurname());
-
-        admin.setUser(user);
-
-        adminRepository.save(admin);
+        adminService.changeAdminData(adminData, currentUser);
 
         return "adminPage";
     }
@@ -91,27 +76,28 @@ public class AdminController {
 
     @GetMapping("/addPhy")
     private String addPhysiotherapist(Model model) {
-       model.addAttribute("physiotherapistData",new PhysiotherapistData());
-       return "adminAddPhy";
+        model.addAttribute("physiotherapistData", new PhysiotherapistData());
+        model.addAttribute("phylist", physiotherapistRepository.findAll());
+        return "adminAddPhy";
     }
 
     @PostMapping("/addPhy")
     private String addPhysiotherapist(@ModelAttribute("physiotherapistData") @Valid
-                                                  PhysiotherapistData physiotherapistData, BindingResult result) {
+                                              PhysiotherapistData physiotherapistData, BindingResult result) {
         if (result.hasErrors()) {
             return "adminAddPhy";
         }
-        Physiotherapist physiotherapist = new Physiotherapist();
-        physiotherapist.setName(physiotherapistData.getName());
-        physiotherapist.setSurname(physiotherapistData.getSurname());
-        physiotherapist.setEmail(physiotherapistData.getEmail());
-        physiotherapistRepository.save(physiotherapist);
-           return "adminPage";
+        adminService.createPhysiotherapist(physiotherapistData);
+        return "adminPage";
     }
 
     @GetMapping("/workTime")
     private String setWorkingTime(Model model) {
-        model.addAttribute("officeData",new OfficeData());
+        List<Office> plan = officeRepository.findAllBy();
+
+        model.addAttribute("officeData", new OfficeData());
+        model.addAttribute("plan", plan);
+
         return "adminSetTime";
     }
 
@@ -122,22 +108,40 @@ public class AdminController {
         }
 
         adminService.selectOfficeWorkingTime(
-                officeData.getBegin(),officeData.getEnd(),officeData.isOpen()
+                officeData.getBegin(), officeData.getEnd(), officeData.isOpen()
         );
-        return "adminPage";
-
+        return "redirect:/admin/workTime";
 
     }
 
+    @GetMapping("/workTime/{id}")
+    private String editTime(@PathVariable Long id, Model model) {
+        model.addAttribute("time", new OfficeData());
+        return "EditTime";
+    }
 
+    @PostMapping("/workTime/{id}")
+    private String editTime(@ModelAttribute("time") @Valid OfficeData officeData, BindingResult result, @PathVariable Long id) {
+        if (result.hasErrors()) {
+            return "EditTime";
+        }
+        adminService.editOfficeWorkingTime(officeData,id);
+        return "redirect:/admin/workTime";
+    }
 
+    @GetMapping("/workTimeDelete/{id}")
+    private String delete(@PathVariable Long id) {
+        Office office = officeRepository.getOne(id);
+        officeRepository.delete(office);
+        return "redirect:/admin/workTime";
+    }
 
-//    @PostMapping("/workTime")
-//    private String setWorkingTime(@ModelAttribute("physiotherapistData") @Valid
-//                                              PhysiotherapistData physiotherapistData, BindingResult result)
-
-
-
+    @GetMapping("/work")
+    private String work(Model model) {
+        List<Visit> list = visitRepository.findAll();
+        model.addAttribute("Visits", list);
+        return "work";
+    }
 
 
 }

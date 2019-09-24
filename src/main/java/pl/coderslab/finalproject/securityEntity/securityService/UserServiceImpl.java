@@ -2,10 +2,12 @@ package pl.coderslab.finalproject.securityEntity.securityService;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 import pl.coderslab.finalproject.exceptions.ObjectError;
 import pl.coderslab.finalproject.exceptions.ValidationException;
 import pl.coderslab.finalproject.securityEntity.Role;
 import pl.coderslab.finalproject.securityEntity.User;
+import pl.coderslab.finalproject.service.ClientService;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
@@ -21,11 +23,13 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final Validator validator;
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder, Validator validator) {
+    private final ClientService clientService;
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder, Validator validator, ClientService clientService) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.validator = validator;
+        this.clientService = clientService;
     }
 
     @Override
@@ -38,6 +42,15 @@ public class UserServiceImpl implements UserService {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setEnabled(1);
         Role userRole = roleRepository.findByName("ROLE_USER");
+        user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
+        userRepository.save(user);
+    }
+
+    @Override
+    public void savePhysiotherapist(User user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setEnabled(1);
+        Role userRole = roleRepository.findByName("ROLE_PHYSIOTHERAPIST");
         user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
         userRepository.save(user);
     }
@@ -61,7 +74,7 @@ public class UserServiceImpl implements UserService {
 //            result.rejectValue("username", null, "There is already an account registered with that email");
         }
         if (!userData.getPassword().equals(userData.getPassword2())) {
-            ex.addError( new ObjectError("password","Password2 are incorrect"));
+            ex.addError( new ObjectError("password","Passwords are incorrect"));
 
 //            result.rejectValue("password", null, "Password2 are incorrect");
         }
@@ -78,5 +91,21 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    @Override
+    public void register(UserData userData, BindingResult result) {
+        try {
+            User user = authorization(userData);
+            saveUser(user);
+            clientService.createAccount(userData.getName(),userData.getSurname(),userData.getUsername(),user);
+        } catch (ValidationException e) {
 
+            List<ObjectError> errors = e.getErrors();
+            for (ObjectError err : errors) {
+                if (result.getFieldError(err.getFieldName()) == null) {
+                    result.rejectValue(err.getFieldName(), null, err.getMessage());
+                }
+            }
+
+        }
+    }
 }

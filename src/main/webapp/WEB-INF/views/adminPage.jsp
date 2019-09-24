@@ -12,11 +12,13 @@
     <title>Administrator</title>
 </head>
 <body>
-<p>Witaj ${admin.id}</p>
-${admin.username}
+<p>Witaj ${admin.username}</p>
+
+<br>
 <a href="/admin/edit">Dane Administratora</a><br>
 <a href="/admin/addPhy">Dodaj fizjoterapeute</a><br>
 <a href="/admin/workTime">Ustal godziny pracy</a><br>
+<a href="/admin/work">Harmonogram prac</a><br>
 
 
 

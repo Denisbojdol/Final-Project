@@ -8,6 +8,7 @@ import lombok.ToString;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Getter
 @Setter
@@ -21,6 +22,10 @@ public class UserData {
     private String password;
     @NotEmpty
     private String password2;
+    @Size(min = 2,max = 40)
+    private String name;
+    @Size(min = 2,max = 40)
+    private String surname;
 
 
 }

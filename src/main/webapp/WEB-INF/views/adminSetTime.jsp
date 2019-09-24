@@ -1,4 +1,5 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: denis
@@ -22,7 +23,25 @@
     <form:errors path="end" cssClass="error" /><br/>
     <input type="submit" value="Save">
 </form:form>
+<table>
+<c:forEach items="${plan}" var="item">
+    <tr>
+        <td>
+            <c:if test="${item.open==true}">
+                <c:out value="Otwarte"/>
+            </c:if>
+            <c:if test="${item.open!=true}">
+                <c:out value="Zamkniete"/>
+            </c:if>
 
+        </td>
+        <td><c:out value="${item.begin}"/></td>
+        <td><c:out value="${item.end}"/></td>
+        <td><a href="/admin/workTime/${item.id}">Edytuj</a> </td>
+        <td><a href="/admin/workTimeDelete/${item.id}">Usun</a> </td>
+    </tr>
+</c:forEach>
+</table>
 
 </body>
 </html>

@@ -16,13 +16,13 @@ public class PhysiotherapistService implements PhysiotherapistInterface {
     private PhysiotherapistRepository physiotherapistRepository;
 
     @Override
-    public void visitAuthorization(boolean accept,Long id) {
+    public void visitAuthorization(boolean accept, Long id) {
         Visit visit = visitRepository.getOne(id);
 
     }
 
     @Override
-    public void setWorkingTime(LocalDateTime begin, LocalDateTime end, String day,Long id) {
+    public void setWorkingTime(LocalDateTime begin, LocalDateTime end, String day, Long id) {
         WorkSchedule workSchedule = new WorkSchedule();
         workSchedule.setBegin(begin);
         workSchedule.setEnd(end);
@@ -37,11 +37,10 @@ public class PhysiotherapistService implements PhysiotherapistInterface {
     public void setTreatmentMethods() {
 
 
-
     }
 
     @Override
-    public void writeRecommendationToClient(LocalDateTime data,Long id,String description) {
+    public void writeRecommendationToClient(LocalDateTime data, Long id, String description) {
         PatientCard patientCard = new PatientCard();
         patientCard.setTreatmentData(data);
         patientCard.setClient(clientRepository.getOne(id));

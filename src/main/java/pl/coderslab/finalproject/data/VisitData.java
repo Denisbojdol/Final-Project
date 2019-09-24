@@ -26,16 +26,15 @@ public class VisitData {
 
     private boolean smsInformation;
 
+    private boolean confirm;
+
     @OneToOne
-    @NotNull
     private Physiotherapist physiotherapist;
 
     @OneToOne
-    @NotNull
     private Client client;
 
     @OneToOne
-    @NotNull
     private Treatment treatment;
 
 }

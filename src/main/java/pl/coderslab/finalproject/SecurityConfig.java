@@ -2,6 +2,7 @@ package pl.coderslab.finalproject;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -11,7 +12,7 @@ import pl.coderslab.finalproject.securityEntity.securityService.SpringDataUserDe
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
+//@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
@@ -19,14 +20,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/").permitAll()
+                .antMatchers("/**").permitAll()
                 .antMatchers("/user/about").authenticated()
                 .antMatchers("/user/edit").authenticated()
-//                .antMatchers("/admin/*").hasRole("ADMIN")
-                .and().formLogin().loginPage("/login")
-                .and().formLogin()
-                .permitAll();
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/user/**").hasRole("USER")
+                .antMatchers("/employee/**").hasRole("PHYSIOTHERAPIST")
+                .and().formLogin().loginPage("/login").defaultSuccessUrl("/")
+                .and().logout().logoutSuccessUrl("/")
+                ;
     }
+
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

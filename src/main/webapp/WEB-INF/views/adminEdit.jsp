@@ -23,5 +23,21 @@
 </form:form>
 
 
+<table>
+    <tr>
+    <th>Imie</th>
+    <th>Nazwisko</th>
+    <th>Email</th>
+    </tr>
+    <tr>
+        <td>${admin.name}</td>
+        <td>${admin.surname}</td>
+        <td>${admin.email}</td>
+    </tr>
+
+
+</table>
+
+
 </body>
 </html>

@@ -8,11 +8,13 @@ import pl.coderslab.finalproject.entity.Visit;
 import pl.coderslab.finalproject.repository.ClientRepository;
 import pl.coderslab.finalproject.repository.PatientCardRepository;
 import pl.coderslab.finalproject.repository.VisitRepository;
+import pl.coderslab.finalproject.securityEntity.User;
 import pl.coderslab.finalproject.securityEntity.securityService.UserRepository;
 
 import java.time.LocalDateTime;
+
 @Service
-public class ClientService implements ClientInterface{
+public class ClientService implements ClientInterface {
 
 
     private UserRepository userRepository;
@@ -29,7 +31,7 @@ public class ClientService implements ClientInterface{
     }
 
     @Override
-    public void selectVisit(LocalDateTime data,Client client,Physiotherapist physiotherapist,Treatment treatment) {
+    public void selectVisit(LocalDateTime data, Client client, Physiotherapist physiotherapist, Treatment treatment) {
         Visit visit = new Visit();
         visit.setClient(client);
         visit.setVisitData(data);
@@ -46,23 +48,23 @@ public class ClientService implements ClientInterface{
     }
 
 
-
     @Override
     public void deleteAccount(Long id) {
         userRepository.delete(userRepository.getOne(id));
     }
 
     @Override
-    public void createAccount(String name,String surname,String email) {
+    public void createAccount(String name, String surname, String email, User user) {
         Client client = new Client();
         client.setName(name);
         client.setSurname(surname);
         client.setEmail(email);
+        client.setUser(user);
         clientRepository.save(client);
     }
 
     @Override
-    public void editAccount(Long id,String name,String surname,String email) {
+    public void editAccount(Long id, String name, String surname, String email) {
         Client client = clientRepository.getOne(id);
         client.setName(name);
         client.setSurname(surname);

@@ -17,14 +17,16 @@
 
     Data wizyty: <form:input path="visitData" />
     <form:errors path="visitData" cssClass="error" /><br/>
-    <form:select path="physiotherapist" items="${physiotherapist}" itemValue="id" itemLabel="name"/>
-    <form:select path="treatment" items="${treatment}" itemValue="id" itemLabel="name"/>
-
+    Wybierz fizjoterapeure <form:select path="physiotherapist" items="${physiotherapist}" itemValue="id" itemLabel="name"/>
+    <br>
+    Wybierz metode leczenia <form:select path="treatment" items="${treatment}" itemValue="id" itemLabel="name"/>
+    <br>
     <input type="submit" value="Save">
 
-
-
 </form:form>
+
+<a href="#">Home</a><br>
+
 
 
 
