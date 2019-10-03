@@ -1,36 +1,28 @@
 package pl.coderslab.finalproject.service;
 
-import pl.coderslab.finalproject.data.AdminData;
-import pl.coderslab.finalproject.data.OfficeData;
-import pl.coderslab.finalproject.data.PhysiotherapistData;
-import pl.coderslab.finalproject.entity.Admin;
-import pl.coderslab.finalproject.entity.Client;
-import pl.coderslab.finalproject.entity.Physiotherapist;
-import pl.coderslab.finalproject.entity.Visit;
-import pl.coderslab.finalproject.securityEntity.User;
-import pl.coderslab.finalproject.securityEntity.securityService.CurrentUser;
+
+import pl.coderslab.finalproject.data.AdminDTO;
+import pl.coderslab.finalproject.data.DoctorDTO;
+import pl.coderslab.finalproject.data.OfficeDTO;
+import pl.coderslab.finalproject.entity.Doctor;
+import pl.coderslab.finalproject.entity.Patient;
+import pl.coderslab.finalproject.security.securityService.CurrentUser;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.Map;
 
 public interface AdminInterface {
 
-        void selectOfficeWorkingTime(LocalDateTime begin,LocalDateTime end,boolean open);
+        void selectOfficeWorkingTime(OfficeDTO officeDTO);
 
-        void editOfficeWorkingTime(OfficeData officeData,Long id);
+        void createDoctor(DoctorDTO doctorDTO);
 
-        void createPhysiotherapist(PhysiotherapistData physiotherapistData);
+        void removeDoctor(Doctor doctor);
 
-        void setOfficeScheduleInformation(String information);
+        void removePatient(Patient patient);
 
-        void removePhysiotherapist(Physiotherapist physiotherapist);
+        void setTreatmentPrice(BigDecimal bigDecimal, String name);
 
-        void removeClient(Client client);
-
-        void setTreatmentPrice(BigDecimal bigDecimal,String name);
-
-        void changeAdminData(AdminData adminData, CurrentUser currentUser);
+        void changeAdminData(AdminDTO adminDTO, CurrentUser currentUser);
 
 
 }

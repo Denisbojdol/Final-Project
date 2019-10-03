@@ -1,31 +1,34 @@
 package pl.coderslab.finalproject.entity;
 
-import ch.qos.logback.core.net.server.Client;
+
 import lombok.Getter;
 import lombok.Setter;
+import pl.coderslab.finalproject.security.securityEntity.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "patientCard")
+@Table(name = "patient")
 @Getter
 @Setter
-public class PatientCard {
+public class Patient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
-    private String treatmentDescription;
+    private String name;
 
+    @NotNull
+    private String surname;
 
-    private LocalDateTime treatmentData;
+    @NotNull
+    private String email;
 
     @OneToOne
-    private Patient patient;
+    private User user;
 
 
 

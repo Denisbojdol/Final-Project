@@ -5,32 +5,33 @@ import lombok.Setter;
 import pl.coderslab.finalproject.security.securityEntity.User;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "admin")
+@Table(name = "doctor")
 @Getter
 @Setter
-public class Admin {
+public class Doctor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+    @NotEmpty
     private String name;
 
-    @NotNull
+    @NotEmpty
     private String surname;
 
-    @NotNull
+    @NotEmpty
+    @Email
     private String email;
 
     @OneToOne
+    @NotNull
     private User user;
-
-
-
 
 
 }

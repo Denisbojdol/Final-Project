@@ -1,32 +1,23 @@
-package pl.coderslab.finalproject.entity;
+package pl.coderslab.finalproject.data;
 
-
-import ch.qos.logback.core.net.server.Client;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.sql.Time;
+import pl.coderslab.finalproject.entity.Doctor;
+import pl.coderslab.finalproject.entity.Patient;
+import pl.coderslab.finalproject.entity.Treatment;
+import javax.persistence.OneToOne;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-@Entity
-@Table(name = "visit")
 @Getter
 @Setter
 @ToString
-public class Visit {
+public class VisitDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
-    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate visitData;
 
@@ -43,9 +34,7 @@ public class Visit {
     @OneToOne
     private Patient patient;
 
-
-
-
-
+    @OneToOne
+    private Treatment treatment;
 
 }

@@ -28,6 +28,6 @@ public class WorkSchedule {
     private String day;
 
     @ManyToOne
-    private Physiotherapist physiotherapist;
+    private Doctor doctor;
 
 }

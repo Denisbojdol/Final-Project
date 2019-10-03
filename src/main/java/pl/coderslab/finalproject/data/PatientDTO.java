@@ -1,21 +1,20 @@
-package pl.coderslab.finalproject.entity;
+package pl.coderslab.finalproject.data;
+
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
+import pl.coderslab.finalproject.entity.PatientCard;
 import pl.coderslab.finalproject.security.securityEntity.User;
-
-import javax.persistence.*;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
-@Entity
-@Table(name = "admin")
+
 @Getter
 @Setter
-public class Admin {
+@ToString
+public class PatientDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     @NotNull
     private String name;
@@ -27,10 +26,8 @@ public class Admin {
     private String email;
 
     @OneToOne
+    private PatientCard patientCard;
+
+    @OneToOne
     private User user;
-
-
-
-
-
 }

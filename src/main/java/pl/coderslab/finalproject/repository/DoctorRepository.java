@@ -2,9 +2,10 @@ package pl.coderslab.finalproject.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import pl.coderslab.finalproject.entity.Visit;
+import pl.coderslab.finalproject.entity.Doctor;
+
 
 @Repository
-public interface VisitRepository extends JpaRepository<Visit,Long> {
+public interface DoctorRepository extends JpaRepository<Doctor,Long> {
 
 }
