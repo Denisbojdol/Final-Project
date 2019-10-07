@@ -28,8 +28,9 @@
 </form:form>
 <table>
 
-    <c:forEach items="${plan}" var="item">
+    <c:forEach items="${plan}" var="item" >
         <tr>
+            <td><c:out value="${item.day}"/></td>
             <td>
                 <c:if test="${item.open==true}">
                     <c:out value="Otwarte"/>

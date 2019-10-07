@@ -43,6 +43,9 @@ public class Visit {
     @OneToOne
     private Patient patient;
 
+    @OneToOne
+    private Treatment treatment;
+
 
 
 

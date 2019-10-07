@@ -26,24 +26,10 @@ INSERT INTO doctor (email, name, surname, user_id) VALUES ('doctor2@test.pl','An
 INSERT INTO patient (email, name, surname, user_id) values ('user@test.pl','Denis','Bojdol',1);
 
 --
--- INSERT INTO treatment (name , price) values ('Masaz leczniczy',100.00);
--- INSERT INTO treatment (name , price) values ('Kinezoterapia',150.00);
--- INSERT INTO treatment (name , price) values ('Terapia manualna',200.00);
--- INSERT INTO treatment (name , price) values ('Fizykoterapia',200.00);
--- INSERT INTO treatment (name , price) values ('Masaz relaksacyjny',200.00);
--- INSERT INTO treatment (name , price) values ('Konsultacja fizjoterapeutyczna',50.00);
--- INSERT INTO treatment (name , price) values ('Rehabilitacja specjalistyczna',200.00);
+INSERT INTO treatment (name , price,treatment_time) values ('Badanie',100.00,'01:00');
+INSERT INTO treatment (name , price,treatment_time) values ('Badanie 2',150.00,'00:30');
+INSERT INTO treatment (name , price,treatment_time) values ('Badanie 3',200.00,'02:30');
 --
 --
--- INSERT INTO office (begin, end, open) values ('2019-09-16 08:00','2019-10-16 20:00',1);
--- INSERT INTO office (begin, end, open) values ('2019-09-17 08:00','2019-10-17 20:00',1);
--- INSERT INTO office (begin, end, open) values ('2019-09-18 08:00','2019-10-18 20:00',1);
--- INSERT INTO office (begin, end, open) values ('2019-09-19 08:00','2019-10-19 18:00',1);
--- INSERT INTO office (begin, end, open) values ('2019-09-20 08:00','2019-10-20 20:00',1);
--- INSERT INTO office (begin, end, open) values ('2019-09-21 10:00','2019-10-21 16:00',1);
--- INSERT INTO office (begin, end, open) values ('2019-09-22 00:00','2019-10-22 00:00',0);
---
--- INSERT INTO physiotherapist (email,name,surname,user_id) values ('physiotherapist@test.pl','Jan','Kowalski',2);
--- INSERT INTO physiotherapist (email,name,surname,user_id) values ('physiotherapist2@test.pl','Andrzej','Nowak',4);
---
+
 

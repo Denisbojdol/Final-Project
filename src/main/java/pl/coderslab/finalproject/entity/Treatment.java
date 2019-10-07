@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalTime;
 import java.util.Date;
 
 @Entity
@@ -24,7 +25,7 @@ public class Treatment {
     private BigDecimal price;
 
     @DateTimeFormat(pattern = "HH:mm")
-    private Date treatmentTime;
+    private LocalTime treatmentTime;
 
 
 }

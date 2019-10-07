@@ -37,4 +37,5 @@ public class VisitDTO {
     @OneToOne
     private Treatment treatment;
 
+
 }

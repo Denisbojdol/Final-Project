@@ -22,10 +22,12 @@
         <form:input type="date" path="visitData"/>
         Godzina wizyty:
         <form:input path="visitTime" type="time"/>
-        Wybierz Lekarza:Lekarza:
+        <br>
+        Wybierz Lekarza:
         <form:select path="doctor" items="${doctors}" itemValue="id" itemLabel="name"/>
         <br>
-        <%--        Wybierz metode leczenia <form:select path="treatment" items="${treatment}" itemValue="id" itemLabel="name"/>--%>
+        Wybierz metode leczenia
+        <form:select path="treatment" items="${treatment}" itemValue="id" itemLabel="name2"/>
         <br>
         <input type="submit" value="Save">
 
